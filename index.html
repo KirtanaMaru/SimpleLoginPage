@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Linking to Axios for HTTP requests -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.5/axios.min.js" integrity="sha512-01Pe9P3mJM/4c80VuoYEGHlspKGbd9uWQe9HtdLsdTqV0CS1kz8ca44sinVEXEvlZNciMmsAjeEbm5ZxHC7yYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Title of the document -->
+    <title>Document</title>
+
+    <!-- External CSS file for styles -->
+    <link href="task.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Login container -->
+    <div class='login'>
+
+        <!-- Welcome message with curve styling -->
+        <div class="curve"> <p>Welcome To Page</p></div>
+        
+        <!-- Card containing the login form -->
+        <div class='card'>
+             <!-- User icon -->
+            <i class="fa-solid fa-user"></i>
+            <!-- Login heading -->
+            <p>Login</p>
+            <!-- Message area for displaying validation errors -->
+            <div class="msg"></div>
+
+            <!-- Form div containing email and password fields -->
+            <div class="form-div">
+                <!-- Email input field -->
+                <input type="text" id="uid" name="id"  placeholder='Email' >
+                <span><i class="fa-regular fa-envelope"></i></span>
+       
+                <!-- Password input field with toggle visibility option -->
+                <input type="password" id="pwd" name="pwd" placeholder='Password'>
+                <span><i class="fa-solid fa-lock"></i></span>
+                <span><i class="fa-solid fa-eye-slash eye"></i></span>
+           
+            </div>
+            <!-- Remember me checkbox -->
+            <div>
+                <input type="checkbox"><span class="rem">Remember me</span>
+            </div>
+            <!-- Login button -->
+            <button onclick="login()">Login</button>
+
+        </div>
+    </div>
+    <div class="login-msg">
+        <!-- Card container for the content -->
+        <div class="card">
+            <!-- Loading message and spinner -->
+            <div class="load">
+                <p >Please Wait Almost there ....</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let login =()=>{
+            // Getting DOM elements for optimization
+            let uid = document.getElementById("uid")
+            let pwd = document.getElementById("pwd")
+            let msg= document.getElementsByClassName("msg")[0]
+       
+        
+            let data={"username":uid.value,"password":pwd.value}
+            // Email pattern for validation
+           let pattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+       
+           //Email and password  should not empty
+           if(uid.value!="" && pwd.value!=""){
+           // Email validation
+           if(pattern.test(uid.value)){
+       
+           // Password validation
+            if(pwd.value.length>=6){
+             // Hiding login form upon successful response
+                document.getElementsByClassName("login")[0].style.display="none"
+                //Showing Loading card
+                document.getElementsByClassName("login-msg")[0].style.display="flex"
+                document.getElementsByClassName("load")[0].style.display="flex"
+                
+                
+                axios.post("https://jsonplaceholder.typicode.com/posts",data).then((res)=>{
+                
+               
+                //redirecting to login.html 
+                window.location.href="login.html"
+               }) .catch((error) => {
+                //For displaying error message if login fails
+                 document.getElementsByClassName("login-msg")[0].style.display="none"
+                 document.getElementsByClassName("load")[0].style.display="none"
+                document.getElementsByClassName("login")[0].style.display="flex"
+                            msg.innerHTML = "Login failed. Please try again.";
+                           
+                        });
+            }
+        
+            else{
+            // Indicate password input error
+            pwd.style.borderColor="red"
+            document.getElementsByClassName("fa-lock")[0].style.color="red"
+            
+            msg.innerHTML="Password must be at least 6 characters."
+          }
+       }
+       else{
+        // Indicate email input error
+        uid.style.borderColor="red"
+        document.getElementsByClassName("fa-envelope")[0].style.color="red"
+        msg.innerHTML="Please enter a valid email address."
+       }
+    
+
+    }
+    else{
+        //if input field is empty
+        msg.innerHTML="Please Filled Data..."
+
+    }
+   }
+    
+    // password visibility 
+    let eye= document.getElementsByClassName("eye")[0]
+    eye.addEventListener("click",()=>{
+     
+     //getAttribute is used to get attribute of element
+     if(pwd.getAttribute("type")==="password"){
+        eye.classList.remove("fa-eye-slash")
+        eye.classList.add('fa-eye')
+
+     //setAttribute is used to set the attribute of element
+     pwd.setAttribute("type","text")
+
+     }
+     else{
+        //remove is used to remove classes of element
+        eye.classList.remove("fa-eye")
+        // add is used to add classes of element
+        eye.classList.add('fa-eye-slash')
+     pwd.setAttribute("type","password")
+     
+     }
+     
+
+    })
+
+  
+    
+    </script>
+</body>
+</html>

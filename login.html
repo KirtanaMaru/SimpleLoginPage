@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0">
+    <title>Document</title>
+    <!-- External CSS file for styles -->
+    <link href="task.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Main container for success messages -->
+    <div class="login-msg">
+        <!-- Card container for the content -->
+        <div class="card">
+            <!-- Success message -->
+            <div class="succ">
+                <div class="img"><img src="check.png" alt="Success Checkmark"></div>
+                <p class="success-msg">Login Successfully!!</p>
+            </div>
+        </div>
+        
+    </div>
+    <script>
+     
+       
+                
+        // show the success message
+            document.getElementsByClassName("login-msg")[0].style.display="flex"
+            document.getElementsByClassName("succ")[0].style.display="flex"
+        
+        // After 3.5 seconds total redirect to the index.html page
+        
+        setTimeout(()=>{
+            window.location.href="index.html"
+            },3500)
+    </script>
+</body>
+</html>
